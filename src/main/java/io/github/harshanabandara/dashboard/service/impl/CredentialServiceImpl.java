@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.github.harshanabandara.dashboard.dto.LoginRequest;
+import io.github.harshanabandara.dashboard.model.Credential;
 import io.github.harshanabandara.dashboard.repository.CredentialRepository;
 import io.github.harshanabandara.dashboard.service.CredentialService;
 
@@ -15,6 +16,11 @@ public class CredentialServiceImpl implements CredentialService {
     @Autowired
     public CredentialServiceImpl(CredentialRepository credentialRepository) {
         this.credentialRepository = credentialRepository;
+    }
+
+    @Override
+    public Credential create(Credential credential) {
+        return this.credentialRepository.save(credential);
     }
 
     @Override

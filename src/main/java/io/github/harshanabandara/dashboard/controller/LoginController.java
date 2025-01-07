@@ -1,6 +1,7 @@
 package io.github.harshanabandara.dashboard.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.harshanabandara.dashboard.dto.LoginRequest;
 import io.github.harshanabandara.dashboard.dto.LoginResponse;
 import io.github.harshanabandara.dashboard.service.CredentialService;
-import io.github.harshanabandara.dashboard.service.UserService;
 
 @RestController
 public class LoginController {
@@ -27,7 +27,7 @@ public class LoginController {
     public ResponseEntity<LoginResponse> login(@RequestBody final LoginRequest loginRequest) {
         if (credentialService.validateCredential(loginRequest)) {
             LoginResponse loginResponse = new LoginResponse(userToken);
-            return ResponseEntity.ok(loginResponse);
+            return new ResponseEntity<LoginResponse>(loginResponse, HttpStatus.ACCEPTED);
         }
         return null;
     }
