@@ -19,7 +19,7 @@ import io.jsonwebtoken.security.Keys;;
 public class JwtTokenUtil {
     private static final SecretKey SECRET = Keys
             .hmacShaKeyFor(
-                    "dashboard-for-haulmaticdashboard-for-haulmaticdashboard-for-haulmaticdashboard-for-haulmatic"
+                    "dashboard-for-haulmatic-se-interview-coding-assignment"
                             .getBytes(StandardCharsets.UTF_8));
     private static final String ROLE = "role";
     private static final String USERNAME = "username";
