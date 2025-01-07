@@ -6,5 +6,8 @@ import io.github.harshanabandara.dashboard.model.Credential;
 public interface CredentialService {
     public Credential create(Credential credential);
 
-    public boolean validateCredential(LoginRequest loginRequest);
+    public Credential validateCredential(LoginRequest loginRequest);
+
+    public Credential loadCredentialByusername(String username);
+
 }
