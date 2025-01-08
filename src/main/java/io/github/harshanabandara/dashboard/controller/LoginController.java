@@ -3,6 +3,7 @@ package io.github.harshanabandara.dashboard.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import io.github.harshanabandara.dashboard.model.Credential;
 import io.github.harshanabandara.dashboard.service.CredentialService;
 import io.github.harshanabandara.dashboard.util.JwtTokenUtil;
 
+@CrossOrigin("*")
 @RestController
 public class LoginController {
     private final CredentialService credentialService;
