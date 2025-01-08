@@ -55,4 +55,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable);
     }
 
+    @Override
+    public boolean deleteById(Long userId) {
+        userRepository.deleteById(userId);
+        return true;
+    }
+
 }

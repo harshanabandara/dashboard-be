@@ -16,4 +16,6 @@ public interface UserService {
 
     Page<User> getAll(Pageable pageable);
 
+    boolean deleteById(Long userId);
+
 }
