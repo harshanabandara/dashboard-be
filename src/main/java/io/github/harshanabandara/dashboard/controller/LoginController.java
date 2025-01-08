@@ -15,6 +15,7 @@ import io.github.harshanabandara.dashboard.service.CredentialService;
 import io.github.harshanabandara.dashboard.util.JwtTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @CrossOrigin("*")
@@ -29,9 +30,8 @@ public class LoginController {
 
     @PostMapping("/api/login")
     @Operation(summary = "User Login", description = "Retrieve a jwt using the username, and password of a user")
-    // @ApiResponse(responseCode = "200", description = "Login attempt successful.
-    // jwt created", content = @Content(mediaType = "application/json", schema =
-    // @schema(implementation = LoginResponse.class)))
+    @ApiResponse(responseCode = "200", description = "Login attempt successful.jwt created", content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class)))
+    @ApiResponse(responseCode = "401", description = "Login failed", content = @Content)
     public ResponseEntity<LoginResponse> login(@RequestBody final LoginRequest loginRequest) {
         Credential credential = credentialService.validateCredential(loginRequest);
         if (credential != null) {

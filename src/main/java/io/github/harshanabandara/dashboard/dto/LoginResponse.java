@@ -1,5 +1,8 @@
 package io.github.harshanabandara.dashboard.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema
 public class LoginResponse {
     private String token;
 

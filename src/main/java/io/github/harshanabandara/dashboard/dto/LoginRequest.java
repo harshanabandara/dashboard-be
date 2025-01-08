@@ -1,5 +1,7 @@
 package io.github.harshanabandara.dashboard.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class LoginRequest {
     private String username;
     private String password;
