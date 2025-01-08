@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +29,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/users")
+    @PostMapping("/api/users")
     public ResponseEntity<UserResponse> createUser(@RequestBody final UserRequest userRequest) {
         User user = userRequest.getUserFromRequest();
         User createdUser = userService.create(user);
@@ -37,7 +37,7 @@ public class UserController {
         return new ResponseEntity<UserResponse>(userResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping("/users/{userId}")
+    @PutMapping("/api/users/{userId}")
     public ResponseEntity<UserResponse> updateUser(@RequestBody final UserRequest userRequest,
             @PathVariable Long userId) {
         User user = userService.updateById(userRequest.getUserFromRequest(), userId);
@@ -48,7 +48,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/api/users/{userId}")
     public ResponseEntity<UserResponse> retrieveUser(@PathVariable Long userId) {
         User user = userService.findById(userId);
         if (user != null) {
@@ -58,11 +58,19 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users")
+    @GetMapping("/api/users")
     public ResponseEntity<Page<UserResponse>> retrieveUsers(Pageable pageable) {
         Page<User> userPage = userService.getAll(pageable);
         Page<UserResponse> userResponsePage = userPage.map(user -> new UserResponse(user));
         return new ResponseEntity<Page<UserResponse>>(userResponsePage, HttpStatus.FOUND);
+    }
+
+    @DeleteMapping("/api/users/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        if (userService.deleteById(userId)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

@@ -13,6 +13,9 @@ import io.github.harshanabandara.dashboard.dto.LoginResponse;
 import io.github.harshanabandara.dashboard.model.Credential;
 import io.github.harshanabandara.dashboard.service.CredentialService;
 import io.github.harshanabandara.dashboard.util.JwtTokenUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @CrossOrigin("*")
 @RestController
@@ -24,13 +27,17 @@ public class LoginController {
         this.credentialService = credentialService;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
+    @Operation(summary = "User Login", description = "Retrieve a jwt using the username, and password of a user")
+    // @ApiResponse(responseCode = "200", description = "Login attempt successful.
+    // jwt created", content = @Content(mediaType = "application/json", schema =
+    // @schema(implementation = LoginResponse.class)))
     public ResponseEntity<LoginResponse> login(@RequestBody final LoginRequest loginRequest) {
         Credential credential = credentialService.validateCredential(loginRequest);
         if (credential != null) {
             String token = JwtTokenUtil.createToken(credential);
             LoginResponse loginResponse = new LoginResponse(token);
-            return new ResponseEntity<LoginResponse>(loginResponse, HttpStatus.ACCEPTED);
+            return new ResponseEntity<LoginResponse>(loginResponse, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
