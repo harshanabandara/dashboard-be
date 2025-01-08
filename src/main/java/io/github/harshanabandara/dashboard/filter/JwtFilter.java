@@ -33,7 +33,6 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String authHeadeString = request.getHeader("Authorization");
-        System.out.println(authHeadeString);
         String token = null;
         if (authHeadeString != null) {
             token = authHeadeString.split(" ")[1].trim();
