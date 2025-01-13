@@ -13,15 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.harshanabandara.dashboard.dto.LoginResponse;
 import io.github.harshanabandara.dashboard.dto.UserRequest;
 import io.github.harshanabandara.dashboard.dto.UserResponse;
 import io.github.harshanabandara.dashboard.model.User;
 import io.github.harshanabandara.dashboard.service.UserService;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -70,7 +67,7 @@ public class UserController {
     public ResponseEntity<Page<UserResponse>> retrieveUsers(@ParameterObject Pageable pageable) {
         Page<User> userPage = userService.getAll(pageable);
         Page<UserResponse> userResponsePage = userPage.map(user -> new UserResponse(user));
-        return new ResponseEntity<Page<UserResponse>>(userResponsePage, HttpStatus.FOUND);
+        return new ResponseEntity<Page<UserResponse>>(userResponsePage, HttpStatus.OK);
     }
 
     @DeleteMapping("/api/users/{userId}")
