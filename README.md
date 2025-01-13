@@ -17,5 +17,6 @@
 
 ## Future Development (TODO)
 
-- [ ] enable dashboard flow
+- [x] enable dashboard flow
+- [ ] improve test coverage
 - [ ] improve authentication handling
