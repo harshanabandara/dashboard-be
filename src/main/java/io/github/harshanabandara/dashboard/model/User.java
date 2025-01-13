@@ -22,18 +22,18 @@ public class User {
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
-    @Column(name = "last_seen_at")
-    private LocalDateTime last_seen_at;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
-        last_seen_at = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     public void onUpdate() {
-        last_seen_at = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     public void setUserId(long userId) {
@@ -69,10 +69,10 @@ public class User {
     }
 
     public LocalDateTime getLast_seen_at() {
-        return last_seen_at;
+        return updatedAt;
     }
 
     public void setLast_seen_at(LocalDateTime last_seen_at) {
-        this.last_seen_at = last_seen_at;
+        this.updatedAt = last_seen_at;
     }
 }

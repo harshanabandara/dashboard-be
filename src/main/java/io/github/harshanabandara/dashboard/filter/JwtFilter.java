@@ -4,14 +4,12 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authorization.method.AuthorizeReturnObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.github.harshanabandara.dashboard.model.Credential;
-import io.github.harshanabandara.dashboard.model.User;
 import io.github.harshanabandara.dashboard.service.CredentialService;
 import io.github.harshanabandara.dashboard.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -45,10 +43,13 @@ public class JwtFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             credential = credentialService.loadCredentialByusername(username);
             if (JwtTokenUtil.validateToken(token, credential)) {
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username,
-                        credential);
+                System.out.println("validate token for " + username);
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(credential, null,
+                        credential.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
+            } else {
+                System.out.println("Cannot validate token: " + token);
             }
         }
         filterChain.doFilter(request, response);

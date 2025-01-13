@@ -1,5 +1,6 @@
 package io.github.harshanabandara.dashboard.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,26 @@ public class UserServiceImpl implements UserService {
     public boolean deleteById(Long userId) {
         userRepository.deleteById(userId);
         return true;
+    }
+
+    @Override
+    public long count() {
+        return userRepository.count();
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getLastCreated() {
+        Optional<User> user;
+        user = userRepository.findLastCreatedUser();
+        if (user.isPresent()) {
+            return user.get();
+        }
+        return null;
     }
 
 }
