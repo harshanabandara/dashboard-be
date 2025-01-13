@@ -1,5 +1,11 @@
 package io.github.harshanabandara.dashboard.model;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -17,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "credentials")
-public class Credential {
+public class Credential implements UserDetails {
 
     @Id
     private String username;
@@ -32,6 +38,11 @@ public class Credential {
     @Override
     public String toString() {
         return "Credential: { username:" + username + ", password:" + password + ", role:" + role + '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new RoleGrantedAuthority(role));
     }
 
 }
