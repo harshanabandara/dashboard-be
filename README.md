@@ -5,6 +5,7 @@
 - Clone the project into the workspace
 - build project using `mvn clean install`
 - run project by running `./mwnv spring-boot:run`
+- swagger documentation - `http://localhost:8080/swagger-ui/index.html#/`
 
 ## Additional information
 
