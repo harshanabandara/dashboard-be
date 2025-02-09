@@ -8,10 +8,11 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import io.github.harshanabandara.dashboard.exception.JwtException;
 import io.github.harshanabandara.dashboard.model.Credential;
-import io.github.harshanabandara.dashboard.model.User;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;;
 
 /**
  *
@@ -19,7 +20,7 @@ import io.jsonwebtoken.security.Keys;;
 public class JwtTokenUtil {
     private static final SecretKey SECRET = Keys
             .hmacShaKeyFor(
-                    "dashboard-for-haulmatic-se-interview-coding-assignment"
+                    "dashboard-spiring-boot-break-in-project-so-far-so-good"
                             .getBytes(StandardCharsets.UTF_8));
     private static final String ROLE = "role";
     private static final String USERNAME = "username";
@@ -41,16 +42,34 @@ public class JwtTokenUtil {
         return createToken(map, credential.getUsername());
     }
 
-    private static Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(SECRET)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    private static Claims extractAllClaims(String token)
+            throws JwtException {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(SECRET)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw (new JwtException("Expired token", e));
+        } catch (UnsupportedJwtException e) {
+            throw (new JwtException("Unsupported tokem", e));
+        } catch (MalformedJwtException e) {
+            throw (new JwtException("Token Error", e));
+        } catch (SignatureException e) {
+            throw (new JwtException("Invalid signature", e));
+        }
+
     }
 
     private static <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        Claims claims = extractAllClaims(token);
+        Claims claims;
+        try {
+            claims = extractAllClaims(token);
+        } catch (JwtException e) {
+            e.printStackTrace();
+            return null;
+        }
         return claimsResolver.apply(claims);
     }
 
@@ -73,6 +92,7 @@ public class JwtTokenUtil {
             return false;
         }
         String username = extractUserName(token);
+        // TODO: issue a new token if the current one does not work
         return username.equals(credential.getUsername()) && !isTokenExpired(token);
     }
 

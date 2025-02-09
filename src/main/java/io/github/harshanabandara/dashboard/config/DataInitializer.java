@@ -39,7 +39,7 @@ public class DataInitializer implements CommandLineRunner {
             Credential adminCredential = new Credential();
             Credential userCredential = new Credential();
 
-            adminCredential.setUsername("haulmatic");
+            adminCredential.setUsername("admin");
             adminCredential.setPassword(PasswordUtil.digestPassword("123456"));
             adminCredential.setRole("ADMIN");
             adminCredential.setUserId(1);
