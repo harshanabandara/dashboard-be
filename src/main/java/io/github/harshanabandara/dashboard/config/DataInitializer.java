@@ -9,6 +9,7 @@ import io.github.harshanabandara.dashboard.model.User;
 import io.github.harshanabandara.dashboard.repository.CredentialRepository;
 import io.github.harshanabandara.dashboard.repository.UserRepository;
 import io.github.harshanabandara.dashboard.util.PasswordUtil;
+import io.github.harshanabandara.dashboard.util.Roles;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -41,13 +42,13 @@ public class DataInitializer implements CommandLineRunner {
 
             adminCredential.setUsername("admin");
             adminCredential.setPassword(PasswordUtil.digestPassword("123456"));
-            adminCredential.setRole("ADMIN");
+            adminCredential.setRole(Roles.ADMIN);
             adminCredential.setUserId(1);
             credentialRepository.save(adminCredential);
 
             userCredential.setUsername("default");
             userCredential.setPassword(PasswordUtil.digestPassword("123456"));
-            userCredential.setRole("user");
+            userCredential.setRole(Roles.USER);
             userCredential.setUserId(2);
             credentialRepository.save(userCredential);
         }

@@ -9,6 +9,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import io.github.harshanabandara.dashboard.filter.JwtFilter;
+import io.github.harshanabandara.dashboard.util.Roles;
+import io.github.harshanabandara.dashboard.util.Constants.ROLE;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +30,9 @@ public class SecurityConfig {
                         (requests) -> requests
                                 // login requests needs to be permitted
                                 .requestMatchers("/api/login", "/api/logout").permitAll()
+                                .requestMatchers("/api/dashboard").hasAuthority(Roles.ADMIN)
+                                .requestMatchers("/api/users").hasAnyAuthority(
+                                        Roles.ADMIN, Roles.USER)
                                 // All other requests needs to be authenticated
                                 .anyRequest().authenticated());
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
