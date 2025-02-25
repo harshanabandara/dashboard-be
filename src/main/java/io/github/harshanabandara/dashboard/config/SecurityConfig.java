@@ -22,7 +22,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("HEREEEEE2");
         http
                 .csrf((csrf) -> csrf.disable()) // to disable cross site request forgery since we use jwt.
                 .authorizeHttpRequests(
